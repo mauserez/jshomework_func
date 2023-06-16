@@ -106,7 +106,6 @@ function sum(a = 0) {
 		return a + b;
 	};
 }
-const summary = sum(2);
 console.log(sum(1)());
 console.log(sum(1)(1));
 console.log(sum()(3));
