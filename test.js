@@ -68,7 +68,7 @@ function checkPrimeNumber() {
 	let primeNumber = Number(prompt("Введите простое число не больше 1000", 2));
 
 	// Здесь зацикливаю скрипт если ввели не то что хочу.
-	if (primeNumber >= 1000 || primeNumber === "NaN") {
+	if (primeNumber >= 1000 || isNaN(primeNumber)) {
 		alert("Данные неверны");
 		checkPrimeNumber();
 		return;
@@ -86,9 +86,9 @@ function checkPrimeNumber() {
 		}
 	}
 
-	let isPrimeText = isPrime === true ? "простое" : "не простое";
-
-	return `${primeNumber} ${isPrimeText} число`;
+	return `${primeNumber} - ${
+		isPrime === true ? "простое" : "не простое"
+	} число`;
 }
 console.log(checkPrimeNumber);
 console.log(checkPrimeNumber());
@@ -97,7 +97,8 @@ console.log(checkPrimeNumber());
 clearConsoleAndGoNext(3);
 console.log(
 	`3 задание - Напишите функцию, которая принимает число как аргумент и возвращает функцию,
-	которая также принимает число как аргумент и возвращает сумму этих двух чисел. \nВыведите в консоль результат.`
+	которая также принимает число как аргумент и возвращает сумму этих двух чисел.
+	\nВыведите в консоль результат.`
 );
 
 function sum(a = 0) {
@@ -109,6 +110,9 @@ const summary = sum(2);
 console.log(sum(1)());
 console.log(sum(1)(1));
 console.log(sum()(3));
+
+const summ = (a) => (b) => a + b;
+console.log(summ(2)(3));
 
 // 4 задание
 clearConsoleAndGoNext(4);
@@ -141,32 +145,27 @@ setTimeout(function () {
 
 	//Если не передан параметр b то возвращаю в 1 степени
 	const toPow = (a, b = 1) => {
-		//Я бы сделал это так))) return Math.pow(a, b);
-
-		//Здесь проверка на null,undefined
-		function checkValue(v) {
-			return [null, undefined].includes(v);
-		}
-
 		//Привожу к числам
-		let aNum = Number(a);
-		let bNum = Number(b);
+		const base = parseFloat(a);
+		const exponent = parseFloat(b);
 
-		//Обработка и вывод если всё нормально.
-		if (checkValue(a)) {
-			return "Не хватает параметров";
+		if (a == null || isNaN(base) || isNaN(exponent)) {
+			return "В параметрах передано некорректное значение";
 		}
 
-		if (aNum === "NaN" || bNum === "NaN") {
-			return "В параметрах передано не число";
+		if (exponent === 0) {
+			return 1;
 		}
 
-		let val = 1;
-		for (let i = 0; i < b; i++) {
-			val *= a;
+		if (exponent > 0) {
+			let result = 1;
+			for (let i = 0; i < exponent; i++) {
+				result *= base;
+			}
+			return result;
+		} else {
+			return 1 / toPow(base, Math.abs(exponent));
 		}
-
-		return val;
 	};
 
 	console.log(toPow(2, 3));
